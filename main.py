@@ -107,7 +107,7 @@ st.markdown("""A little app that charts the seasonal returns of a stock or ETF.
 - Tools used: [yfinance](https://github.com/ranaroussi/yfinance), [Pandas](https://pandas.pydata.org/), [Altair](https://altair-viz.github.io/), and [Streamlit](https://streamlit.io/)
 """)
 
-st.write("NOT A FINCNCIAL ADVICE. USE AT YOUR OWN RISK.")
+st.write("NOT A FINANCIAL ADVICE. USE AT YOUR OWN RISK.")
 st.markdown("""---""")
 
 ticker = st.text_input('Enter the asset ticker (Yahoo! Finance format)', '^GSPC')
