@@ -101,9 +101,7 @@ def run(ticker):
 st.set_page_config(page_title="Seasonal stock charts", page_icon='https://img.icons8.com/fluency/48/null/stocks-growth.png')
 
 st.title("Seasonality stock charting")
-st.markdown("""
-This app shows the seasonal returns of a stock or ETF.
-The seasonality is based on the monthly cumulative returns of an asset over the years.
+st.markdown("""A little app that charts the seasonal returns of a stock or ETF. 
 
 - Written by [Ran Aroussi](https://tradologics.com) ([@aroussi](https://twitter.com/ranaroussi)) / [source](https://github.com/ranaroussi/seasonality)
 - Tools used: [yfinance](https://github.com/ranaroussi/yfinance), [Pandas](https://pandas.pydata.org/), [Altair](https://altair-viz.github.io/), and [Streamlit](https://streamlit.io/)
