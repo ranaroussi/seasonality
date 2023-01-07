@@ -1,0 +1,3 @@
+yfinance==0.2.3
+altair==4.2.0
+steamlit==1.16.0
