@@ -76,7 +76,7 @@ def run(ticker):
     monthly = {}
     for year in df.index.year.unique():
         yeardf = df[df.index.year == year]
-        monthly[year] = yeardf.groupby(yeardf.index.month).sum()
+        monthly[year] = yeardf.groupby(yeardf.index.month).sum() * 100
 
     data = pd.concat(monthly, axis=1)
     data.columns = [col[0] for col in data.columns]
