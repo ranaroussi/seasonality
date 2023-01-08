@@ -8,6 +8,16 @@ months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct'
 
 @st.cache(allow_output_mutation=True)
 def run(ticker):
+    info = yf.Ticker(ticker).info
+    if not info:
+        return {
+            "error": True
+        }
+
+    days_in_month = 22
+    if "currency" in info.get('quoteType').lower():
+        days_in_month = 31
+
     data = yf.download(ticker, period='max', show_errors=False, progress=False)
     if data.empty:
         return {
@@ -38,8 +48,11 @@ def run(ticker):
     seasonal_returns = seasonal_returns.dropna(how='all').mean(axis=1)
 
     expr = ''
-    for idx, val in enumerate(range(0, len(seasonal), 22)):
-      expr += f"datum.label == {val} ? '{months[idx]}' : "
+    for idx, val in enumerate(range(0, len(seasonal), days_in_month)):
+        try:
+            expr += f"datum.label == {val} ? '{months[idx]}' : "
+        except:
+            pass
     expr += 'null'
 
     source = pd.DataFrame({
@@ -85,8 +98,6 @@ def run(ticker):
     summary = pd.DataFrame(data.mean(axis=1))
     summary.columns = ['Return %']
 
-    info = yf.Ticker(ticker).info
-
     return {
         "error": False,
         "title": f'{info.get("shortName", ticker)} Seasonal chart',
@@ -101,7 +112,7 @@ def run(ticker):
 st.set_page_config(page_title="Seasonal stock charts", page_icon='https://img.icons8.com/fluency/48/null/stocks-growth.png')
 
 st.title("Seasonality stock charting")
-st.markdown("""A little app that charts the seasonal returns of a stock or ETF. 
+st.markdown("""A little app that charts the seasonal returns of a stock or ETF.
 
 - Written by [Ran Aroussi](https://tradologics.com) ([@aroussi](https://twitter.com/ranaroussi)) / [source](https://github.com/ranaroussi/seasonality)
 - Tools used: [yfinance](https://github.com/ranaroussi/yfinance), [Pandas](https://pandas.pydata.org/), [Altair](https://altair-viz.github.io/), and [Streamlit](https://streamlit.io/)
@@ -124,7 +135,7 @@ else:
     # print(data)
 
     if data.get('error', True):
-        st.error(f"Cannot find asset with ticker `{ticker}`. Asset may be delisted.")
+        st.error(f"Cannot find asset with ticker `{ticker}`. Please make sure this ticker is a valid Yahoo! Finance ticker.")
 
     else:
 
