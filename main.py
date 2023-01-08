@@ -15,7 +15,7 @@ def run(ticker):
         }
 
     days_in_month = 22
-    if "currency" in info.get('quoteType').lower():
+    if "crypto" in info.get('quoteType').lower():
         days_in_month = 31
 
     data = yf.download(ticker, period='max', show_errors=False, progress=False)
